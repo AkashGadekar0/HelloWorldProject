@@ -1,0 +1,18 @@
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: my-app-service
+#spec:
+#  type: NodePort
+#  selector:
+#    app: my-app
+#  ports:
+#    - protocol: TCP
+#      port: 80
+#      targetPort: 8080
+#      nodePort: 30000
+
+
+#http://localhost:63160/hello/akash run on this kuberntes
+#http://localhost:9090/hello/akash docker
+

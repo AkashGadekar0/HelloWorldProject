@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "java-servlet-app.fullname" . }}-mssql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql
+  template:
+    metadata:
+      labels:
+        app: mssql
+    spec:
+      containers:
+        - name: mssql
+          image: {{ .Values.mssql.image }}
+          ports:
+            - containerPort: {{ .Values.mssql.port }}
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: "{{ .Values.mssql.sa_password }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "java-servlet-app.fullname" . }}-mssql
+spec:
+  selector:
+    app: mssql
+  ports:
+    - port: {{ .Values.mssql.port }}
+      targetPort: {{ .Values.mssql.port }}
