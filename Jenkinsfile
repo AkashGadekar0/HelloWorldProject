@@ -48,6 +48,7 @@ pipeline {
         stage('Deploy with Helm') {
             steps {
                 echo 'Deploying with Helm'
+                export KUBECONFIG=C:/Users/akgadekar/.kube/config
                 bat "helm upgrade --install servlet-app %CHART_PATH%"
             }
         }
