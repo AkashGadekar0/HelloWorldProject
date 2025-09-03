@@ -62,7 +62,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
   hosts:
-    # - host: akash.com  
+    - host: akash.com  
       paths:
         - path: /hello
           pathType: Prefix
