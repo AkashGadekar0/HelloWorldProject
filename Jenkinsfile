@@ -49,11 +49,7 @@ pipeline {
         stage('Deploy with Helm') {
             steps {
                 echo 'Deploying with Helm'
-                bat """
-                    helm upgrade --install servlet-app ${CHART_PATH} `
-                    --set image.repository=${IMAGE_NAME} `
-                    --set image.tag=${IMAGE_TAG}
-                """
+                bat "helm upgrade --install servlet-app ${CHART_PATH} --set image.repository=${IMAGE_NAME} --set image.tag=${IMAGE_TAG}"
             }
         }
     }
