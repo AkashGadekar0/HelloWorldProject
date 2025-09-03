@@ -27,13 +27,23 @@ pipeline {
             }
         }
 
+        // stage('Push Docker Image') {
+        //     steps {
+        //         echo 'Pushing Docker image'
+        //         bat "docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%"
+        //         bat "docker push %DOCKER_IMAGE%"
+        //     }
+        // }
         stage('Push Docker Image') {
-            steps {
-                echo 'Pushing Docker image'
-                bat "docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%"
-                bat "docker push %DOCKER_IMAGE%"
+                steps {
+                    echo 'Pushing Docker image'
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        bat "echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
+                        bat "docker push %DOCKER_IMAGE%"
+                    }
+                }
             }
-        }
+
 
         stage('Deploy with Helm') {
             steps {
