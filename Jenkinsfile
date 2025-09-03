@@ -6,6 +6,7 @@ pipeline {
         IMAGE_TAG = "4"
         DOCKER_IMAGE = "${IMAGE_NAME}:${IMAGE_TAG}"
         CHART_PATH = "java-servlet-app"
+        KUBECONFIG = 'C:/Users/akgadekar/.kube/config'
     }
 
     tools {
