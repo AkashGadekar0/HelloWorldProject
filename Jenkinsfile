@@ -16,9 +16,10 @@ pipeline {
     stages {
         stage('Build Artifact') {
             when {
-                branch 'main'
-                branch 'b2'
-            }
+                    expression {
+                        return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'b2'
+                    }
+                }
             steps {
                 echo 'Building project with Maven'
                 bat 'mvn clean package'
@@ -27,25 +28,21 @@ pipeline {
 
         stage('Build Docker Image') {
             when {
-                branch 'main'
-                branch 'b2'
-            }
+                    expression {
+                        return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'b2'
+                    }
+                }
             steps {
                 echo 'Building Docker image: ${DOCKER_IMAGE}'
                 bat "docker build -t %DOCKER_IMAGE% ."
             }
         }
 
-        // stage('Push Docker Image') {
-        //     steps {
-        //         echo 'Pushing Docker image'
-        //         bat "docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%"
-        //         bat "docker push %DOCKER_IMAGE%"
-        //     }
-        // }
         stage('Push Docker Image') {
-                when {
-                    branch 'main'
+            when {
+                    expression {
+                        return env.BRANCH_NAME == 'main' 
+                    }
                 }
                 steps {
                     echo 'Pushing Docker image: ${DOCKER_IMAGE}'
@@ -59,8 +56,10 @@ pipeline {
 
         stage('Deploy with Helm') {
             when {
-                branch 'main'
-            }
+                    expression {
+                        return env.BRANCH_NAME == 'main' 
+                    }
+                }
             steps {
                 echo 'Deploying with Helm'
                 bat "helm upgrade --install servlet-app ${CHART_PATH} --set image.repository=${IMAGE_NAME} --set image.tag=${IMAGE_TAG}"
