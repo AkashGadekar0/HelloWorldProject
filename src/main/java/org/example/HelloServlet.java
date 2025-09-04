@@ -17,7 +17,7 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        out.println("<h1>Hello, Akash!</h1>");
+        out.println("<h1>Hello, Akash this is b2!</h1>");
 
         int maxRetries = 10;
         int attempt = 0;
@@ -31,7 +31,7 @@ public class HelloServlet extends HttpServlet {
                         "sa",
                         "YourStrong!Passw0rd"
                 );
-                out.println("<h2>Connected to MSSQL successfully!</h2>");
+                out.println("<h2>Connected to MSSQL successfully on b2!</h2>");
                 conn.close();
                 connected = true;
             } catch (Exception e) {
